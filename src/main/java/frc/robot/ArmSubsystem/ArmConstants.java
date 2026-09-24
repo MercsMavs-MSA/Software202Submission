@@ -82,5 +82,8 @@ public final class ArmConstants {
     new ArmSimulationConfiguration(DCMotor.getKrakenX60(1), 0.002);
    
   public static final double kStatusSignalUpdateFrequencyHz = 100.0;
+
+  public static final Rotation2d armMaxLimit = Rotation2d.fromRotations(0.41);
+  public static final Rotation2d armMinLimit = Rotation2d.fromRotations(-0.41);
     
 }
