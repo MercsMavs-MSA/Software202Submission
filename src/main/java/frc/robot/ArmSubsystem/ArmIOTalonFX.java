@@ -107,14 +107,12 @@ public class ArmIOTalonFX implements ArmIO {
 
         //so far, I've changed mine to only use appliedVoltage.
 
-
-
-
-
-
-
+        inputs.supplyCurrentAmps = supplyCurrentAmps.getValueAsDouble();
+        inputs.statorCurrentAmps = statorCurrentAmps.getValueAsDouble();
+        inputs.temperatureCelsius = temperatureCelsius.getValueAsDouble();
 
     }
+    
     
 
 
