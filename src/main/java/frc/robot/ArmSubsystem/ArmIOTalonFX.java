@@ -1,5 +1,5 @@
 
-package frc.robot.subsystem;
+package frc.robot.subsystems;
 
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
@@ -112,10 +112,42 @@ public class ArmIOTalonFX implements ArmIO {
         inputs.temperatureCelsius = temperatureCelsius.getValueAsDouble();
 
     }
-    
-    
 
+    @Override
+    public void setVoltage(double voltage)
+    {
+        armMotor.setControl(voltageControl.withOutput(voltage));
+    }
 
+    @Override
+    
+    public void setPosition(Rotation2d position)
+    {
+        armMotor.setControl(positionControl.withPosition(position.getRotations()));
+    }
+
+    @Override
+    public void stop()
+    {
+        armMotor.setControl(new NeutralOut());
+    }
+
+    @Override
+    public void setBrakeMode(boolean enableBrake)
+    {
+        NeutralModeValue newMode = enableBrake ? NeutralModeValue.Brake : NeutralModeValue.Coast;
+        if (currentMode != newMode)
+        {
+            armMotor.setNeutralMode(newMode);
+            currentMode = newMode;
+        }
+    }
+
+    @Override
+    public Angle getPosition()
+    {
+        return armMotor.getPosition().getValue();
+    }
 
 }  
 
