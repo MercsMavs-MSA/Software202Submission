@@ -38,7 +38,7 @@ public class ArmIOTalonFX implements ArmIO {
     private StatusSignal<AngularVelocity> velocityRotPerSec;
     private StatusSignal<Current> supplyCurrentAmps;
     private StatusSignal<Current> statorCurrentAmps;
-    private StatusSignal<Voltage> appliedVoltage;
+    private StatusSignal<Voltage> appliedVolts;
     private StatusSignal<Temperature> temperatureCelsius;
 
     public ArmIOTalonFX(String canbus, ArmHardware hardware, ArmGains gains, ArmTalonFXConfiguration configuration, double statusSignalUpdateFrequency) 
@@ -93,20 +93,10 @@ public class ArmIOTalonFX implements ArmIO {
     public void updateInputs(ArmIOInputs inputs)
     {
         inputs.isMotorConnected = BaseStatusSignal.refreshAll(position, velocityRotPerSec, appliedVoltage, supplyCurrentAmps, statorCurrentAmps, temperatureCelsius).isOK(); 
-        //supplyCurrentAmps came twice in worldtour code, is it a mistake?
-
+        
         inputs.position = Rotation2d.fromRotations(position.getValueAsDouble());
         inputs.velocityRotPerSec = velocityRotPerSec.getValueAsDouble();
-        inputs.appliedVoltage = appliedVoltage.getValueAsDouble(); 
-
-        //why do we use getValueAsDouble if velocityRotPerSec and appliedVoltage are 
-        //already instantiated as doubles in the IO file?
-
-        //The Intake file uses appliedVoltage and appliedVolts, is that a typo or
-        //do you actually use both? the IO file refers to appliedVoltage not appliedVolts.
-
-        //so far, I've changed mine to only use appliedVoltage.
-
+        inputs.appliedVoltage = appliedVolts.getValueAsDouble(); 
         inputs.supplyCurrentAmps = supplyCurrentAmps.getValueAsDouble();
         inputs.statorCurrentAmps = statorCurrentAmps.getValueAsDouble();
         inputs.temperatureCelsius = temperatureCelsius.getValueAsDouble();
