@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems;
+package frc.robot.ArmSubsystem;
 
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.Rotations;
@@ -15,7 +15,8 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.util.ZoneUtil;
+import first.robot.ArmSubsystem.ArmConstants.ArmHardware;
+
 import java.util.function.Supplier;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
@@ -30,6 +31,18 @@ public class Arm extends SubsystemBase {
     STOW(() -> Rotation2d.fromRotations(0.0), 0),
     DEPLOY_OUT(() -> Rotation2d.fromRotations(0.0),0.25),
     DEPLOY_IN(() -> Rotation2d.fromRotations(0.0),-0.25);
+
+    private Supplier<Rotation2d> armgoal;
+    private ArmState(Supplier<Rotation2d> goal)
+    {
+      armgoal = goal;
+    }
+
+    public Rotation2d getPosition()
+    {
+      return armgoal.get();
+    }
+
   }
 
   public ArmState armState;
@@ -51,6 +64,7 @@ public class Arm extends SubsystemBase {
     armHardware.updateInputs(armInputs);
     Logger.processInputs("Arm/Inputs", armInputs);
 
+
     switch (armState)
     {
       case STOW:
@@ -67,6 +81,8 @@ public class Arm extends SubsystemBase {
     setPosition(armGoal);
   }
 
+  private final ArmIO ArmHardware;
+
   public void setArmState(ArmState state)
   {
     armState = state;
@@ -79,5 +95,8 @@ public class Arm extends SubsystemBase {
   }
 
 
-  
+  public void setPosition(Rotation2d goal)
+  {
+    ArmHardware.setPosition(goal);
+  }
 }

@@ -1,10 +1,10 @@
 
-package frc.robot.subsystems;
+package frc.robot.ArmSubsystem;
 
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
-import com.ctre,phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.NeutralOut;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
@@ -19,9 +19,8 @@ import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Temperature;
 import edu.wpi.first.units.measure.Voltage;
-import frc.robot.subsystems.ArmConstants.ArmGains;
-import frc.robot.subsystems.ArmConstants.ArmHardware;
-import frc.robot.subsystems.ArmConstants.ArmTalonFXConfiguration;
+import frc.robot.ArmSubsystem.ArmConstants.*;
+
 
 
 public class ArmIOTalonFX implements ArmIO {
@@ -44,7 +43,7 @@ public class ArmIOTalonFX implements ArmIO {
     public ArmIOTalonFX(String canbus, ArmHardware hardware, ArmGains gains, ArmTalonFXConfiguration configuration, double statusSignalUpdateFrequency) 
     {
         armMotor = new TalonFX(hardware.armID(), canbus);
-        motorConfiguration.CurrentLimits.SupplyCurentLimitEnable = configuration.enableSupplyCurrentLimit();
+        motorConfiguration.CurrentLimits.SupplyCurrentLimitEnable = configuration.enableSupplyCurrentLimit();
         motorConfiguration.CurrentLimits.SupplyCurrentLimit = configuration.supplyCurrentLimitAmps();
         motorConfiguration.CurrentLimits.StatorCurrentLimitEnable = configuration.enableStatorCurrentLimit();
         motorConfiguration.CurrentLimits.StatorCurrentLimit = configuration.statorCurrentLimitAmps();
@@ -53,7 +52,7 @@ public class ArmIOTalonFX implements ArmIO {
         motorConfiguration.Voltage.PeakReverseVoltage = configuration.peakReverseVoltage();
 
         motorConfiguration.MotorOutput.NeutralMode = configuration.neutralMode();
-        motorConfiguration.MotorOutput.Inverted = configuration.invert() ? InvertedValue.CounterClockwise_Positive : InvertedValue.Clockwose_Positive;
+        motorConfiguration.MotorOutput.Inverted = configuration.invert() ? InvertedValue.CounterClockwise_Positive : InvertedValue.Clockwise_Positive;
         motorConfiguration.Feedback.SensorToMechanismRatio = hardware.gearing();
         motorConfiguration.Feedback.RotorToSensorRatio = 1.0;
 
@@ -72,14 +71,14 @@ public class ArmIOTalonFX implements ArmIO {
 
         position = armMotor.getPosition();
         velocityRotPerSec = armMotor.getVelocity();
-        appliedVoltage = armMotor.getMotorVoltage();
+        appliedVolts = armMotor.getMotorVoltage();
         supplyCurrentAmps = armMotor.getSupplyCurrent();
         statorCurrentAmps = armMotor.getStatorCurrent();
         temperatureCelsius = armMotor.getDeviceTemp();
 
-        BaseStatusSignal.setUpdateFrequencyForAll(statusSignalUpdateFrequency, position, velocityRotPerSec, appliedVoltage, supplyCurrentAmps, statorCurrentAmps, temperatureCelsius);
+        BaseStatusSignal.setUpdateFrequencyForAll(statusSignalUpdateFrequency, position, velocityRotPerSec, appliedVolts, supplyCurrentAmps, statorCurrentAmps, temperatureCelsius);
 
-        armMotor.optimizeBusUtilization(0.0, 1,0);
+        armMotor.optimizeBusUtilization(0.0, 1.0);
         armMotor.getConfigurator().apply(motorConfiguration, 1);
 
     }
@@ -92,7 +91,7 @@ public class ArmIOTalonFX implements ArmIO {
     @Override
     public void updateInputs(ArmIOInputs inputs)
     {
-        inputs.isMotorConnected = BaseStatusSignal.refreshAll(position, velocityRotPerSec, appliedVoltage, supplyCurrentAmps, statorCurrentAmps, temperatureCelsius).isOK(); 
+        inputs.isMotorConnected = BaseStatusSignal.refreshAll(position, velocityRotPerSec, appliedVolts, supplyCurrentAmps, statorCurrentAmps, temperatureCelsius).isOK(); 
         
         inputs.position = Rotation2d.fromRotations(position.getValueAsDouble());
         inputs.velocityRotPerSec = velocityRotPerSec.getValueAsDouble();

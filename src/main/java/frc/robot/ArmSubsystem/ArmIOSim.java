@@ -5,8 +5,8 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
-import edu.wpi.first.subsystems.ArmConstants.ArmSimulationConfiguration;
-import frc.robot.subsystems.ArmConstants.ArmHardware; 
+import edu.wpi.first.ArmSubsystem.ArmConstants.ArmSimulationConfiguration;
+import frc.robot.ArmSubsystem.ArmConstants.*; 
 
 
 public class ArmIOSim implements ArmIO 
