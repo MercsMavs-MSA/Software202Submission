@@ -5,7 +5,8 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Commands;
-import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.ArmSubsystem.*;
+import frc.robot.ArmSubsystem.Arm.ArmState;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -19,24 +20,28 @@ import frc.robot.commands.TeleopCommands;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ArmSubsystem arm;
-  private final TeleopCommands teleopcommands;
+  private Arm arm = new Arm();
+  private final TeleopCommands teleopcommands = new TeleopCommands(arm);
+    
   
-
-  // Replace with CommandPS4Controller or CommandJoystick if needed
+    // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
-      new CommandXboxController(0);
-
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  public RobotContainer() {
-    // Configure the trigger bindings
-    switch (Constants.currentMode)
+        new CommandXboxController(0);
+  
+    /** The container for the robot. Contains subsystems, OI devices, and commands. */
+  public RobotContainer() 
+  {
+      // Configure the trigger bindings
+    switch (ArmConstants.currentMode)
     {
       case REAL:
-        arm = new ArmSubsystem();
+        arm = new Arm();
         break;
       case SIM:
-        arm = new ArmSubsystem();
+        arm = new Arm();
+        break;
+      default:
+        arm =new Arm();
         break;
     }
     configureBindings();
@@ -61,8 +66,8 @@ public class RobotContainer {
     // // cancelling on release.
     // m_driverController.().whileTrue(m_exampleSubsystem.exampleMethodCommand());
 
-    m_driverController.leftBumper().onTrue(teleopcommands.armCommand(DEPLOY_IN));
-    m_driverController.rightBumper().onTrue(teleopcommands.armCommand(DEPLOY_OUT));
+    m_driverController.leftBumper().onTrue(teleopcommands.armCommand(ArmState.DEPLOY_IN));
+    m_driverController.rightBumper().onTrue(teleopcommands.armCommand(ArmState.DEPLOY_OUT));
     m_driverController.a().onTrue(teleopcommands.sequentialCommand());
 
 

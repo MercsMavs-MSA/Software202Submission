@@ -5,9 +5,9 @@
 // license that can be found in the LICENSE file
 // at the root directory of this project.
 
-package first;
+package frc.robot;
 
-import org.wpilib.framework.RobotBase;
+import edu.wpi.first.wpilibj.RobotBase;
 
 /**
  * Do NOT add any static variables to this class, or any initialization at all. Unless you know what
@@ -23,6 +23,6 @@ public final class Main {
    * <p>If you change your main robot class, change the parameter type.
    */
   public static void main(String... args) {
-    RobotBase.startRobot(first.robot.Robot::new);
+    RobotBase.startRobot(Robot::new);
   }
 }

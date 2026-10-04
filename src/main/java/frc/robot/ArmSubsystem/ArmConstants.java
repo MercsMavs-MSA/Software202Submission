@@ -5,9 +5,11 @@
 // license that can be found in the LICENSE file
 // at the root directory of this project.
 
-package first.robot.ArmSubsystem;
+package frc.robot.ArmSubsystem;
 
-import org.wpilib.framework.RobotBase;
+import edu.wpi.first.wpilibj.RobotBase;
+
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.system.plant.DCMotor;
@@ -50,7 +52,7 @@ public final class ArmConstants {
       50,
       12,
       -12,
-      NeutralModeValue.break);
+      NeutralModeValue.Brake);
 
   public record ArmGains(
     double p,
@@ -80,7 +82,7 @@ public final class ArmConstants {
   public record ArmHardware(int armID, double gearing) {}
   public static ArmHardware armHardware = new ArmHardware(1, 60d / 1d);
 
-  public record IntakeSimulationConfiguration(DCMotor motorType, double measurementStdDevs) {}
+  public record ArmSimulationConfiguration(DCMotor motorType, double measurementStdDevs) {}
   public static final ArmSimulationConfiguration armSimulationConfiguration = 
     new ArmSimulationConfiguration(DCMotor.getKrakenX60(1), 0.002);
    

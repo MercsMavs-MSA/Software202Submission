@@ -15,7 +15,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import first.robot.ArmSubsystem.ArmConstants.ArmHardware;
+import frc.robot.ArmSubsystem.ArmConstants.ArmHardware;
 
 import java.util.function.Supplier;
 import org.littletonrobotics.junction.AutoLogOutput;
@@ -28,9 +28,9 @@ public class Arm extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
   public enum ArmState 
   {
-    STOW(() -> Rotation2d.fromRotations(0.0), 0),
-    DEPLOY_OUT(() -> Rotation2d.fromRotations(0.0),0.25),
-    DEPLOY_IN(() -> Rotation2d.fromRotations(0.0),-0.25);
+    STOW(() -> Rotation2d.fromRotations(0)),
+    DEPLOY_OUT(() -> Rotation2d.fromRotations(0.25)),
+    DEPLOY_IN(() -> Rotation2d.fromRotations(-0.25));
 
     private Supplier<Rotation2d> armgoal;
     private ArmState(Supplier<Rotation2d> goal)
@@ -50,10 +50,10 @@ public class Arm extends SubsystemBase {
   private final ArmIO armIO;
   private final ArmIOInputsAutoLogged armInputs = new ArmIOInputsAutoLogged();
 
-  public ArmConstructor(ArmIO armio)
+  public void ArmConstructor(ArmIO armio)
   {
     armIO = armio;
-    armState = STOW;
+    armState = ArmState.STOW;
   }
 
   private Rotation2d armGoal;
@@ -88,10 +88,10 @@ public class Arm extends SubsystemBase {
     armState = state;
   }
 
-  @AutoLogOutput(key = "Arm/STATE")
-  public enum getArmState()
+ @AutoLogOutput(key = "Arm/STATE")
+  public enum getArmState
   {
-    return armState;
+    armState
   }
 
 

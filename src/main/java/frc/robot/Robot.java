@@ -5,7 +5,7 @@
 // license that can be found in the LICENSE file
 // at the root directory of this project.
 
-package first.robot;
+package frc.robot;
 
 import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
@@ -14,24 +14,21 @@ import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
+import frc.robot.ArmSubsystem.ArmConstants;
+ 
+
 public class Robot extends LoggedRobot {
   public Robot() {
     // Record metadata
-    Logger.recordMetadata("ProjectName", BuildConstants.MAVEN_NAME);
-    Logger.recordMetadata("BuildDate", BuildConstants.BUILD_DATE);
-    Logger.recordMetadata("GitSHA", BuildConstants.GIT_SHA);
-    Logger.recordMetadata("GitDate", BuildConstants.GIT_DATE);
-    Logger.recordMetadata("GitBranch", BuildConstants.GIT_BRANCH);
-    Logger.recordMetadata(
-        "GitDirty",
-        switch (BuildConstants.DIRTY) {
-          case 0 -> "All changes committed";
-          case 1 -> "Uncommitted changes";
-          default -> "Unknown";
-        });
+    Logger.recordMetadata("ProjectName", "Ritika's 202");
+    Logger.recordMetadata("BuildDate", "October 4th 2026");
+    Logger.recordMetadata("GitSHA", "Don't know.");
+    Logger.recordMetadata("GitDate", "October 4?");
+    Logger.recordMetadata("GitBranch", "Don't even worry about it");
+    
 
     // Set up data receivers & replay source
-    switch (Constants.currentMode) {
+    switch (ArmConstants.currentMode) {
       case REAL:
         // Running on a real robot, log to a USB stick ("/U/logs")
         Logger.addDataReceiver(new WPILOGWriter());
@@ -76,11 +73,4 @@ public class Robot extends LoggedRobot {
   @Override
   public void teleopPeriodic() {}
 
-  /** This function is called once each time the robot enters utility mode. */
-  @Override
-  public void utilityInit() {}
-
-  /** This function is called periodically during utility mode. */
-  @Override
-  public void utilityPeriodic() {}
 }

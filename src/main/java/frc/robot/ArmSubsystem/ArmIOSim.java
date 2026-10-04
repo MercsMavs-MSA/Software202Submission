@@ -1,11 +1,12 @@
-package frc.robot.subsystems;
+package frc.robot.ArmSubsystem;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
-import edu.wpi.first.ArmSubsystem.ArmConstants.ArmSimulationConfiguration;
+import frc.robot.ArmSubsystem.ArmConstants.ArmSimulationConfiguration;
+import frc.robot.ArmSubsystem.ArmConstants.ArmHardware;
 import frc.robot.ArmSubsystem.ArmConstants.*; 
 
 
@@ -35,7 +36,7 @@ public class ArmIOSim implements ArmIO
     }
 
     @Override
-    publci void setVoltage(double volts)
+    public void setVoltage(double volts)
     {
         appliedVoltage = MathUtil.clamp(volts, -12.0, 12.0);
         armMotor.setInputVoltage(appliedVoltage);
