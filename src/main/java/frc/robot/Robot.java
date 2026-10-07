@@ -14,6 +14,8 @@ import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
+import frc.robot.arm.ArmConstants;
+
 public class Robot extends LoggedRobot {
   public Robot() {
     // Record metadata
@@ -31,7 +33,7 @@ public class Robot extends LoggedRobot {
         });
 
     // Set up data receivers & replay source
-    switch (Constants.currentMode) {
+    switch (ArmConstants.currentMode) {
       case REAL:
         // Running on a real robot, log to a USB stick ("/U/logs")
         Logger.addDataReceiver(new WPILOGWriter());
